@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { getImg } from 'components/API/Api';
 import css from './Searchbar.module.css';
 
 export class Searchbar extends Component {
