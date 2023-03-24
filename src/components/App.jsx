@@ -24,8 +24,10 @@ export class App extends Component {
       .then(data => {
         if (data.length === 0) {
           alert('no matching images');
+          // не работает без этого импорта (не знаю почему), а гит не разрешает пушить
+          console.log(scroll);
         }
-        data.map(({ id, webformatURL, largeImageURL, tags }) => {
+        data.map(({ id, webformatURL, largeImageURL, tags }) =>
           this.setState(prevState => {
             return {
               dataImgs: [
@@ -33,8 +35,8 @@ export class App extends Component {
                 { id, webformatURL, largeImageURL, tags },
               ],
             };
-          });
-        });
+          })
+        );
       })
       .finally(() => {
         this.setState({ isLoad: false });
@@ -59,7 +61,7 @@ export class App extends Component {
       duration: 1000,
       delay: 100,
       smooth: 'easeInOutQuint',
-      offset: 500,
+      offset: 1500,
     });
   };
 
