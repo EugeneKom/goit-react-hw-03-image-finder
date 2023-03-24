@@ -84,7 +84,11 @@ export class App extends Component {
           onClickModalOpen={this.onClickModalOpen}
           imgCards={this.state.dataImgs}
         />
-        {this.state.isLoad && <ColorRing />}
+        {this.state.isLoad && (
+          <div className={css.loadingWrapper}>
+            <ColorRing />
+          </div>
+        )}
         {this.state.dataImgs.length !== 0 && !this.state.isLoad && (
           <Element className={css.scrollEl} name="myScrollToElement">
             <LoadButton onLoadMore={this.onLoadMore} />

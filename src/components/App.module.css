@@ -8,3 +8,8 @@
 .scrollEl {
   display: flex;
 }  
+
+.loadingWrapper {
+  display: flex;
+  justify-content: center;
+}
