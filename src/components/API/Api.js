@@ -11,8 +11,9 @@ export function getImg(request, page = 1) {
     .then(response => {
       return response;
     })
-    .then(({ data: { hits } }) => {
-      return hits;
+    .then(({ data }) => {
+      console.log(data);
+      return data;
     })
     .catch(console.error);
 }

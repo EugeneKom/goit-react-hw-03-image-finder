@@ -16,18 +16,21 @@ export class App extends Component {
     isLoad: false,
     isModal: false,
     link: '',
+    totalImg: 0,
   };
 
   loadImg = (value, page) => {
     this.setState({ isLoad: true });
     getImg(value, page)
       .then(data => {
-        if (data.length === 0) {
+        console.log(data);
+        this.setState({ totalImg: data.total });
+        if (data.hits.length === 0) {
           alert('no matching images');
           // не работает без этого импорта (не знаю почему), а гит не разрешает пушить
           console.log(scroll);
         }
-        data.map(({ id, webformatURL, largeImageURL, tags }) =>
+        data.hits.map(({ id, webformatURL, largeImageURL, tags }) =>
           this.setState(prevState => {
             return {
               dataImgs: [
@@ -47,6 +50,7 @@ export class App extends Component {
     if (value.trim() === '') {
       return;
     }
+    this.setState({ page: 2 });
     this.setState({ value });
     this.loadImg(value);
     this.setState({ dataImgs: [] });
@@ -77,26 +81,25 @@ export class App extends Component {
   };
 
   render() {
+    const { dataImgs, isLoad, totalImg, link, isModal } = this.state;
     return (
       <div className={css.app}>
         <Searchbar onSubmit={this.onSubmit}></Searchbar>
         <ImageGallery
           onClickModalOpen={this.onClickModalOpen}
-          imgCards={this.state.dataImgs}
+          imgCards={dataImgs}
         />
-        {this.state.isLoad && (
+        {isLoad && (
           <div className={css.loadingWrapper}>
             <ColorRing />
           </div>
         )}
-        {this.state.dataImgs.length !== 0 && !this.state.isLoad && (
+        {dataImgs.length !== 0 && !isLoad && totalImg !== dataImgs.length && (
           <Element className={css.scrollEl} name="myScrollToElement">
             <LoadButton onLoadMore={this.onLoadMore} />
           </Element>
         )}
-        {this.state.isModal && (
-          <Modal takeImg={this.state.link} onHideModal={this.onHideModal} />
-        )}
+        {isModal && <Modal takeImg={link} onHideModal={this.onHideModal} />}
       </div>
     );
   }
